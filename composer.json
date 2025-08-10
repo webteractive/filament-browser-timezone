@@ -1,24 +1,29 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
-    "keywords": [
-        ":vendor_name",
-        "laravel",
-        ":package_slug"
-    ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "name": "webteractive/filament-browser-timezone",
+    "description": "A Filament plugin to detect user's browser timezone and make it available to Tables, Forms, and Infolist via session",
+            "keywords": [
+            "webteractive",
+            "laravel",
+            "filament",
+            "timezone",
+            "browser",
+            "livewire"
+        ],
+    "homepage": "https://github.com/webteractive/filament-browser-timezone",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Glen Bangkila",
+            "email": "hadeinvane@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.3",
         "spatie/laravel-package-tools": "^1.16",
-        "illuminate/contracts": "^10.0||^11.0||^12.0"
+        "laravel/framework": "^10.0||^11.0|^12.0",
+        "filament/filament": "^3.0",
+        "livewire/livewire": "^3.0"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
@@ -35,13 +40,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Webteractive\\FilamentBrowserTimezone\\": "src/",
+            "Webteractive\\FilamentBrowserTimezone\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Webteractive\\FilamentBrowserTimezone\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -63,10 +68,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Webteractive\\FilamentBrowserTimezone\\FilamentBrowserTimezoneServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "BrowserTimezone": "Webteractive\\FilamentBrowserTimezone\\Facades\\BrowserTimezone"
             }
         }
     },

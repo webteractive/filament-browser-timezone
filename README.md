@@ -1,69 +1,174 @@
-# :package_description
+# Filament Browser Timezone
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
+A Filament package that automatically detects the user's browser timezone and makes it available to Filament resources, forms, and widgets via session storage.
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+## Features
 
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+- 🕐 **Automatic Detection**: Detects browser timezone on page load
+- 🔒 **Session Storage**: Stores timezone in Laravel session for backend access
+- 🎯 **Filament Integration**: Seamlessly integrates with Filament via render hooks
+- 🚀 **Zero Configuration**: Works out of the box with default settings
+- 🛡️ **Error Handling**: Graceful fallbacks for unsupported browsers
+- ⚡ **Performance Optimized**: Minimal impact on page load performance
 
 ## Installation
 
-You can install the package via composer:
-
 ```bash
-composer require :vendor_slug/:package_slug
+composer require webteractive/filament-browser-timezone
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
-
-This is the contents of the published config file:
+The package will be automatically discovered by Laravel. If you're using Laravel 11, you may need to manually register the service provider in your `config/app.php`:
 
 ```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
+'providers' => [
+    // ...
+    Webteractive\FilamentBrowserTimezone\FilamentBrowserTimezoneServiceProvider::class,
+],
 ```
 
 ## Usage
 
+### Automatic Integration
+
+The package automatically integrates with Filament and starts detecting timezone on every page load. No additional configuration required.
+
+### Accessing Browser Timezone
+
+#### In Filament Resources, Forms, and Widgets
+
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
+
+// Get the detected timezone
+$timezone = BrowserTimezone::get();
+
+// Check if timezone is available
+if (BrowserTimezone::has()) {
+    $timezone = BrowserTimezone::get();
+}
+
+// Get with fallback
+$timezone = BrowserTimezone::get('UTC');
 ```
+
+#### In Filament Tables
+
+```php
+use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
+
+class UserResource extends Resource
+{
+    public function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->timezone(BrowserTimezone::get())
+                    ->label('Created At'),
+            ]);
+    }
+}
+```
+
+#### In Filament Forms
+
+```php
+use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
+
+class UserForm extends Form
+{
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                DateTimePicker::make('meeting_time')
+                    ->timezone(BrowserTimezone::get())
+                    ->label('Meeting Time'),
+            ]);
+    }
+}
+```
+
+#### In Filament Widgets
+
+```php
+use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
+
+class StatsWidget extends Widget
+{
+    public function getColumns(): int
+    {
+        return 2;
+    }
+
+    protected function getTableQuery(): Builder
+    {
+        return User::query()
+            ->where('created_at', '>=', now()->setTimezone(BrowserTimezone::get()));
+    }
+}
+```
+
+## Configuration
+
+Publish the configuration file:
+
+```bash
+php artisan vendor:publish --tag="filament-browser-timezone-config"
+```
+
+### Configuration Options
+
+```php
+// config/filament-browser-timezone.php
+
+return [
+    // Session key for storing timezone
+    'session_key' => env('BROWSER_TIMEZONE_SESSION_KEY', 'browser_timezone'),
+    
+
+    
+    // Fallback timezone if detection fails
+    'fallback_timezone' => env('BROWSER_TIMEZONE_FALLBACK', 'UTC'),
+    
+    // Debug mode
+    'debug' => env('BROWSER_TIMEZONE_DEBUG', false),
+];
+```
+
+### Environment Variables
+
+```env
+BROWSER_TIMEZONE_SESSION_KEY=browser_timezone
+BROWSER_TIMEZONE_FALLBACK=UTC
+BROWSER_TIMEZONE_DEBUG=false
+```
+
+## How It Works
+
+1. **Automatic Integration**: The package automatically integrates with Filament panels using render hooks
+2. **Page Load**: When a Filament page loads, the package automatically includes a hidden Livewire component
+3. **JavaScript Detection**: The component uses JavaScript to detect the browser's timezone using `Intl.DateTimeFormat().resolvedOptions().timeZone`
+4. **Session Storage**: The detected timezone is sent to the server via Livewire and stored in the Laravel session
+5. **Filament Integration**: Your Filament resources, forms, and widgets can now access the timezone using the `BrowserTimezone` helper class
+
+## Filament Features
+
+- **Automatic Detection**: Works out of the box with all Filament panels
+- **Render Hook Integration**: Uses Filament's render hook system for seamless integration
+- **Livewire Component**: Built with Livewire for optimal performance
+- **Session Management**: Integrates with Laravel's session system
+
+## Browser Compatibility
+
+The package uses the modern `Intl.DateTimeFormat` API which is supported by:
+- Chrome 24+
+- Firefox 29+
+- Safari 10+
+- Edge 12+
+
+For unsupported browsers, the package will use the configured fallback timezone.
 
 ## Testing
 
@@ -71,22 +176,13 @@ echo $variable->echoPhrase('Hello, VendorName!');
 composer test
 ```
 
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [:author_name](https://github.com/:author_username)
-- [All Contributors](../../contributors)
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Submit a pull request
 
 ## License
 
