@@ -1,7 +1,7 @@
 {
   "name": "webteractive/filament-browser-timezone",
   "description": "A Filament plugin to detect user's browser timezone and make it available to Tables, Forms, and Infolist via session",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "keywords": [
     "webteractive",
     "laravel",
