@@ -116,7 +116,7 @@ validate_version() {
 }
 
 
-# Check if git working directory is clean
+# Check if git working directory is clean and up to date
 check_git_status() {
     print_step "Checking git repository status..."
     
@@ -127,9 +127,73 @@ check_git_status() {
     
     # Check for uncommitted changes
     if ! git diff --quiet || ! git diff --cached --quiet; then
-        print_error "Working directory is not clean. Please commit or stash changes first."
+        print_warning "Working directory is not clean. Uncommitted changes found:"
         git status --short
-        return 1
+        echo
+        if $DRY_RUN; then
+            print_info "[DRY RUN] Would commit and push current changes before release"
+        else
+            read -p "Commit and push these changes before release? (y/N): " -n 1 -r
+            echo
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                # We need to determine the version first for the commit message
+                local temp_version="$VERSION"
+                case $VERSION in
+                    major|minor|patch)
+                        local current_version
+                        current_version=$(get_current_version)
+                        if [[ -z "$current_version" ]]; then
+                            current_version="0.0.0"
+                        fi
+                        temp_version=$(increment_version "$current_version" "$VERSION")
+                        ;;
+                esac
+                commit_message="Release $temp_version changes"
+                
+                print_step "Committing current changes..."
+                git add -A
+                git commit -m "$commit_message"
+                
+                print_step "Pushing current changes..."
+                if ! git push origin; then
+                    print_error "Failed to push changes. Please resolve manually."
+                    return 1
+                fi
+                print_success "Current changes committed and pushed"
+            else
+                print_info "Release cancelled. Please commit or stash changes first."
+                return 1
+            fi
+        fi
+    fi
+    
+    # Check if branch is up to date with remote
+    print_info "Checking if branch is up to date with remote..."
+    local current_branch
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    
+    # Fetch latest from remote
+    if ! git fetch origin "$current_branch" &>/dev/null; then
+        print_warning "Could not fetch from remote. Continuing without remote check."
+    else
+        local local_commit
+        local remote_commit
+        local_commit=$(git rev-parse HEAD)
+        remote_commit=$(git rev-parse "origin/$current_branch" 2>/dev/null)
+        
+        if [[ "$local_commit" != "$remote_commit" ]]; then
+            if git merge-base --is-ancestor HEAD "origin/$current_branch" 2>/dev/null; then
+                print_error "Your branch is behind 'origin/$current_branch'. Please pull the latest changes first."
+                print_info "Run: git pull origin $current_branch"
+                return 1
+            elif git merge-base --is-ancestor "origin/$current_branch" HEAD 2>/dev/null; then
+                print_info "Your branch is ahead of 'origin/$current_branch'. This is expected for a release."
+            else
+                print_error "Your branch and 'origin/$current_branch' have diverged."
+                print_info "Please resolve conflicts and sync with remote before releasing."
+                return 1
+            fi
+        fi
     fi
     
     # Check for untracked files that might be important
@@ -146,7 +210,7 @@ check_git_status() {
         fi
     fi
     
-    print_success "Git repository is clean"
+    print_success "Git repository is ready for release"
     return 0
 }
 
