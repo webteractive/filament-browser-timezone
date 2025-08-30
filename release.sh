@@ -284,7 +284,7 @@ create_github_release() {
 ## What's Changed
 - Version bump to $version
 
-**Full Changelog**: https://github.com/$(gh repo view --json owner,name --jq '.owner.login + \"/\" + .name')/compare/$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo 'HEAD')...$tag_name
+**Full Changelog**: https://github.com/$(gh repo view --json owner,name --jq '.owner.login + "/" + .name')/compare/$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo 'HEAD')...$tag_name
 
 ---
 🤖 Generated with [Claude Code](https://claude.ai/code)"
