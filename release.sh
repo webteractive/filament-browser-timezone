@@ -154,6 +154,13 @@ check_git_status() {
                 git add -A
                 git commit -m "$commit_message"
                 
+                print_step "Pulling latest changes from remote..."
+                if ! git pull origin "$current_branch"; then
+                    print_error "Failed to pull changes. There may be conflicts to resolve."
+                    print_info "Please resolve conflicts manually and run the release script again."
+                    return 1
+                fi
+                
                 print_step "Pushing current changes..."
                 if ! git push origin; then
                     print_error "Failed to push changes. Please resolve manually."
