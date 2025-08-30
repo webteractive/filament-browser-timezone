@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All existing tests pass on both Filament versions
 - No breaking changes for existing users
 
-## [1.0.0] - 2024-12-XX
+## [1.0.0] - 2025-08-10
 
 ### Added
 - Initial release of Filament Browser Timezone package
@@ -51,3 +51,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Works across all modern browsers supporting Intl.DateTimeFormat API
 - Graceful fallback to UTC when timezone detection is unavailable
 - No visible UI elements - completely transparent to end users
+
+**Full Changelog**: https://github.com/webteractive/filament-browser-timezone/commits/v1.0.0
