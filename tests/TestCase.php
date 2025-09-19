@@ -2,8 +2,8 @@
 
 namespace Webteractive\FilamentBrowserTimezone\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Webteractive\FilamentBrowserTimezone\FilamentBrowserTimezoneServiceProvider;
 
 class TestCase extends Orchestra

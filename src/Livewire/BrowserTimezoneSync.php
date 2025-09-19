@@ -2,8 +2,8 @@
 
 namespace Webteractive\FilamentBrowserTimezone\Livewire;
 
-use Illuminate\Support\Facades\Session;
 use Livewire\Component;
+use Illuminate\Support\Facades\Session;
 
 class BrowserTimezoneSync extends Component
 {

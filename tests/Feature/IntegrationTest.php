@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
 use Webteractive\FilamentBrowserTimezone\Livewire\BrowserTimezoneSync;
 
