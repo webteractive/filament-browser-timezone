@@ -5,6 +5,21 @@ All notable changes to `webteractive/filament-browser-timezone` will be document
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Release 1.2.0 - 2025-09-19
+
+Release version 1.2.0
+
+### What's Changed
+
+- Version bump to 1.2.0
+
+**Full Changelog**: https://github.com/webteractive/filament-browser-timezone/compare/v1.1.2...v1.2.0
+
+
+---
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
 ## Release 1.1.2 - 2025-08-30
 
 Release version 1.1.2
