@@ -3,6 +3,7 @@
 namespace Webteractive\FilamentBrowserTimezone;
 
 use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -26,9 +27,8 @@ class FilamentBrowserTimezoneServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        // Register the render hook to include the timezone sync component
         FilamentView::registerRenderHook(
-            'panels::body.start',
+            PanelsRenderHook::BODY_START,
             fn (): string => Blade::render('@livewire(\'browser-timezone-sync\')')
         );
     }

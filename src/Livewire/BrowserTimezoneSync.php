@@ -12,7 +12,7 @@ class BrowserTimezoneSync extends Component
     public function setBrowserTimezone($timezone)
     {
         if (is_string($timezone) && ! empty($timezone)) {
-            Session::put('browser_timezone', $timezone);
+            Session::put(config('filament-browser-timezone.session_key', 'browser_timezone'), $timezone);
         }
     }
 
