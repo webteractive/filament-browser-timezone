@@ -33,7 +33,7 @@ class BrowserTimezone
     /**
      * Set the browser timezone in session.
      */
-    public static function set(string $timezone): void
+    public static function set(?string $timezone): void
     {
         if (! empty($timezone)) {
             Session::put(config('filament-browser-timezone.session_key', 'browser_timezone'), $timezone);

@@ -3,7 +3,7 @@
 namespace Webteractive\FilamentBrowserTimezone\Livewire;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Session;
+use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
 
 class BrowserTimezoneSync extends Component
 {
@@ -11,20 +11,18 @@ class BrowserTimezoneSync extends Component
 
     public function setBrowserTimezone($timezone)
     {
-        if (is_string($timezone) && ! empty($timezone)) {
-            Session::put(config('filament-browser-timezone.session_key', 'browser_timezone'), $timezone);
-        }
+        BrowserTimezone::set($timezone);
     }
 
     public function render()
     {
         return <<<'blade'
-            <div 
+            <div
                 x-data="{
                     init() {
                         try {
                             const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                            if (tz && !sessionStorage.getItem('timezone_sent')) {
+                            if (tz) {
                                 $wire.setBrowserTimezone(tz);
                                 sessionStorage.setItem('timezone_sent', 'true');
                             }
