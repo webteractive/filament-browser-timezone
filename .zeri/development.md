@@ -69,6 +69,26 @@
 - [ ] Documentation is updated
 - [ ] Performance considerations addressed
 
+### Release Workflow
+The project includes an automated release script (`release.sh`) for version management:
+
+**Release Commands:**
+- `./release.sh patch` - Patch version bump (1.0.0 → 1.0.1)
+- `./release.sh minor` - Minor version bump (1.0.0 → 1.1.0)
+- `./release.sh major` - Major version bump (1.0.0 → 2.0.0)
+- `./release.sh 1.2.3` - Specific version number
+
+**Release Process:**
+1. Ensure all changes are committed and pushed
+2. Run the appropriate release command
+3. Script automatically handles version updates, tagging, and GitHub release creation
+
+**AI Assistant Commands for Releases:**
+When user says "do a release" or similar:
+- Ask for release type (patch/minor/major) or use minor as default
+- Run `./release.sh <type>` command
+- Handle any git sync issues before release
+
 ## Important Decisions
 
 ### Timezone Detection
