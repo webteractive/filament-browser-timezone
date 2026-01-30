@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated README.md with version compatibility matrix and AI guidelines information
 - Enhanced package discoverability for AI-assisted development workflows
 
+### Removed
+
+- Removed all GitHub Actions workflows and configuration files
+
 ### Technical Notes
 
 - Filament v5 was released on January 16, 2025 with Livewire v4 support as the main feature
@@ -33,6 +37,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - AI custom guidelines provide comprehensive package documentation for AI assistants
 - No breaking changes for existing users
 - Easy upgrade path from v3/v4 to v5 with no manual steps required
+
+## Release 1.4.0 - 2025-09-19
+
+Release version 1.4.0
+
+### What's Changed
+
+- Version bump to 1.4.0
+
+**Full Changelog**: https://github.com/webteractive/filament-browser-timezone/compare/v1.3.0...v1.4.0
+
+
+---
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
 
 ## Release 1.3.0 - 2025-09-19
 
