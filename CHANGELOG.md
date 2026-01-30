@@ -5,6 +5,39 @@ All notable changes to `webteractive/filament-browser-timezone` will be document
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Filament v5 Support**: Added compatibility with Filament v5 alongside existing v3 and v4 support
+- **Livewire v4 Support**: Added compatibility with Livewire v4 (required for Filament v5)
+- **Laravel AI Custom Guidelines**: Added comprehensive AI custom guidelines in `ai/custom-guidelines.md` for Laravel 12.x AI features
+- Triple version support: Package now supports `filament/filament ^3.0||^4.0||^5.0` and `livewire/livewire ^3.0||^4.0`
+- AI-friendly documentation with common usage patterns, best practices, and troubleshooting guides
+- Enhanced documentation for AI assistants working with this package
+
+### Changed
+
+- Updated `composer.json` to support Filament v3, v4, and v5
+- Updated `composer.json` to support Livewire v3 and v4
+- Updated README.md with version compatibility matrix and AI guidelines information
+- Enhanced package discoverability for AI-assisted development workflows
+
+### Removed
+
+- Removed all GitHub Actions workflows and configuration files
+
+### Technical Notes
+
+- Filament v5 was released on January 16, 2025 with Livewire v4 support as the main feature
+- Filament v4 uses Livewire v3, Filament v5 uses Livewire v4
+- Render hooks remain fully compatible across Filament v3, v4, and v5
+- Livewire component integration works seamlessly with both Livewire v3 and v4
+- Browser timezone detection logic unchanged - maintains consistent functionality
+- AI custom guidelines provide comprehensive package documentation for AI assistants
+- No breaking changes for existing users
+- Easy upgrade path from v3/v4 to v5 with no manual steps required
+
 ## Release 1.4.0 - 2025-09-19
 
 Release version 1.4.0

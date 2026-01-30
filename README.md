@@ -6,10 +6,11 @@ A Filament package that automatically detects the user's browser timezone and ma
 
 - 🕐 **Automatic Detection**: Detects browser timezone on page load
 - 🔒 **Session Storage**: Stores timezone in Laravel session for backend access
-- 🎯 **Filament Integration**: Seamlessly integrates with Filament via render hooks
+- 🎯 **Filament Integration**: Seamlessly integrates with Filament v3, v4, and v5 via render hooks
 - 🚀 **Zero Configuration**: Works out of the box with default settings
 - 🛡️ **Error Handling**: Graceful fallbacks for unsupported browsers
 - ⚡ **Performance Optimized**: Minimal impact on page load performance
+- 🤖 **AI-Friendly**: Includes Laravel AI custom guidelines for better AI-assisted development
 
 ## Installation
 
@@ -169,6 +170,25 @@ The package uses the modern `Intl.DateTimeFormat` API which is supported by:
 - Edge 12+
 
 For unsupported browsers, the package will use the configured fallback timezone.
+
+## Version Compatibility
+
+| Package Version | Filament Version | Livewire Version | Laravel Version | PHP Version |
+|----------------|------------------|------------------|-----------------|-------------|
+| 1.x            | ^3.0\|\|^4.0\|\|^5.0 | ^3.0\|\|^4.0     | ^10.0\|\|^11.28\|\|^12.0 | ^8.2       |
+
+**Note**: Filament v3 and v4 use Livewire v3, while Filament v5 uses Livewire v4. This package supports both Livewire versions seamlessly.
+
+## Laravel AI Guidelines
+
+This package includes custom AI guidelines for Laravel 12.x AI features. When using AI assistants with Laravel 12.x projects, the assistant will have access to comprehensive documentation about this package's usage patterns, best practices, and troubleshooting tips.
+
+The AI guidelines are located in `ai/custom-guidelines.md` and provide:
+- Complete API reference
+- Common usage patterns for Tables, Forms, and Widgets
+- Troubleshooting guides
+- Best practices and examples
+- Common mistakes to avoid
 
 ## Testing
 
