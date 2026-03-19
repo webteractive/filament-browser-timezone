@@ -2,31 +2,23 @@
 
 namespace Webteractive\FilamentBrowserTimezone\Tests;
 
+use Filament\FilamentServiceProvider;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Webteractive\FilamentBrowserTimezone\FilamentBrowserTimezoneServiceProvider;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Webteractive\\FilamentBrowserTimezone\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
-    }
-
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             FilamentBrowserTimezoneServiceProvider::class,
-            \Livewire\LivewireServiceProvider::class,
-            \Filament\FilamentServiceProvider::class,
+            LivewireServiceProvider::class,
+            FilamentServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
 

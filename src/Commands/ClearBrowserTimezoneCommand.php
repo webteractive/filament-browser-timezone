@@ -3,8 +3,9 @@
 namespace Webteractive\FilamentBrowserTimezone\Commands;
 
 use Illuminate\Console\Command;
+use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
 
-class SkeletonCommand extends Command
+class ClearBrowserTimezoneCommand extends Command
 {
     public $signature = 'filament:timezone:clear';
 
@@ -12,7 +13,7 @@ class SkeletonCommand extends Command
 
     public function handle(): int
     {
-        session()->forget('browser_timezone');
+        BrowserTimezone::clear();
 
         $this->info('Browser timezone cleared from session.');
 

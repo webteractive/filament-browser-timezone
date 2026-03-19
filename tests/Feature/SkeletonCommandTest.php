@@ -1,9 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-uses(RefreshDatabase::class);
-
 test('it can clear browser timezone from session', function () {
     // Set a timezone in session
     session(['browser_timezone' => 'America/New_York']);

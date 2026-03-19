@@ -41,8 +41,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Webteractive\\FilamentBrowserTimezone\\": "src/",
-      "Webteractive\\FilamentBrowserTimezone\\Database\\Factories\\": "database/factories/"
+      "Webteractive\\FilamentBrowserTimezone\\": "src/"
     }
   },
   "autoload-dev": {
@@ -70,10 +69,7 @@
     "laravel": {
       "providers": [
         "Webteractive\\FilamentBrowserTimezone\\FilamentBrowserTimezoneServiceProvider"
-      ],
-      "aliases": {
-        "BrowserTimezone": "Webteractive\\FilamentBrowserTimezone\\Facades\\BrowserTimezone"
-      }
+      ]
     }
   },
   "minimum-stability": "dev",

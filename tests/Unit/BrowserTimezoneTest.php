@@ -1,9 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
-
-uses(RefreshDatabase::class);
 
 test('it can get browser timezone from session', function () {
     $timezone = 'Europe/London';

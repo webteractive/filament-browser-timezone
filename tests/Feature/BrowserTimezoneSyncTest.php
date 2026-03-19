@@ -1,10 +1,7 @@
 <?php
 
 use Livewire\Livewire;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Webteractive\FilamentBrowserTimezone\Livewire\BrowserTimezoneSync;
-
-uses(RefreshDatabase::class);
 
 test('it can detect and store browser timezone', function () {
     $timezone = 'America/New_York';

@@ -1,11 +1,8 @@
 <?php
 
 use Livewire\Livewire;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
 use Webteractive\FilamentBrowserTimezone\Livewire\BrowserTimezoneSync;
-
-uses(RefreshDatabase::class);
 
 test('complete workflow from detection to usage', function () {
     // Simulate timezone detection

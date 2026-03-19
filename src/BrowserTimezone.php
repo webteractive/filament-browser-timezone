@@ -8,12 +8,10 @@ class BrowserTimezone
 {
     /**
      * Get the detected browser timezone from session.
-     *
-     * @param  string|null  $fallback
      */
-    public static function get($fallback = null): string
+    public static function get(?string $fallback = null): string
     {
-        $timezone = Session::get(config('filament-browser-timezone.session_key', 'browser_timezone'));
+        $timezone = Session::get(static::sessionKey());
 
         if ($timezone && is_string($timezone)) {
             return $timezone;
@@ -27,7 +25,7 @@ class BrowserTimezone
      */
     public static function has(): bool
     {
-        return Session::has(config('filament-browser-timezone.session_key', 'browser_timezone'));
+        return Session::has(static::sessionKey());
     }
 
     /**
@@ -36,7 +34,7 @@ class BrowserTimezone
     public static function set(?string $timezone): void
     {
         if (! empty($timezone)) {
-            Session::put(config('filament-browser-timezone.session_key', 'browser_timezone'), $timezone);
+            Session::put(static::sessionKey(), $timezone);
         }
     }
 
@@ -45,6 +43,11 @@ class BrowserTimezone
      */
     public static function clear(): void
     {
-        Session::forget(config('filament-browser-timezone.session_key', 'browser_timezone'));
+        Session::forget(static::sessionKey());
+    }
+
+    private static function sessionKey(): string
+    {
+        return config('filament-browser-timezone.session_key', 'browser_timezone');
     }
 }

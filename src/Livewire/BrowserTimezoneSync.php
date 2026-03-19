@@ -7,14 +7,12 @@ use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
 
 class BrowserTimezoneSync extends Component
 {
-    protected $listeners = ['setBrowserTimezone'];
-
-    public function setBrowserTimezone($timezone)
+    public function setBrowserTimezone(?string $timezone): void
     {
         BrowserTimezone::set($timezone);
     }
 
-    public function render()
+    public function render(): string
     {
         return <<<'blade'
             <div
@@ -24,7 +22,6 @@ class BrowserTimezoneSync extends Component
                             const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
                             if (tz) {
                                 $wire.setBrowserTimezone(tz);
-                                sessionStorage.setItem('timezone_sent', 'true');
                             }
                         } catch (error) {
                             console.warn('Timezone detection failed:', error);
