@@ -18,14 +18,7 @@ A Filament package that automatically detects the user's browser timezone and ma
 composer require webteractive/filament-browser-timezone
 ```
 
-The package will be automatically discovered by Laravel. If you're using Laravel 11, you may need to manually register the service provider in your `config/app.php`:
-
-```php
-'providers' => [
-    // ...
-    Webteractive\FilamentBrowserTimezone\FilamentBrowserTimezoneServiceProvider::class,
-],
-```
+The package will be automatically discovered by Laravel.
 
 ## Usage
 
@@ -127,9 +120,7 @@ php artisan vendor:publish --tag="filament-browser-timezone-config"
 return [
     // Session key for storing timezone
     'session_key' => env('BROWSER_TIMEZONE_SESSION_KEY', 'browser_timezone'),
-    
 
-    
     // Fallback timezone if detection fails
     'fallback_timezone' => env('BROWSER_TIMEZONE_FALLBACK', 'UTC'),
     

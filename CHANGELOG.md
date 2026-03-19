@@ -13,30 +13,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Livewire v4 Support**: Added compatibility with Livewire v4 (required for Filament v5)
 - **Laravel AI Custom Guidelines**: Added comprehensive AI custom guidelines in `ai/custom-guidelines.md` for Laravel 12.x AI features
 - Triple version support: Package now supports `filament/filament ^3.0||^4.0||^5.0` and `livewire/livewire ^3.0||^4.0`
-- AI-friendly documentation with common usage patterns, best practices, and troubleshooting guides
-- Enhanced documentation for AI assistants working with this package
 
 ### Changed
 
+- Renamed `SkeletonCommand` to `ClearBrowserTimezoneCommand` (artisan command `filament:timezone:clear` unchanged)
+- Extracted duplicated session key config lookup into `BrowserTimezone::sessionKey()` helper
+- Fixed `filament:timezone:clear` command to use configured session key instead of hardcoded value
+- Added type hints and return types across all classes
 - Updated `composer.json` to support Filament v3, v4, and v5
 - Updated `composer.json` to support Livewire v3 and v4
 - Updated README.md with version compatibility matrix and AI guidelines information
-- Enhanced package discoverability for AI-assisted development workflows
+- Cleaned up tests: removed unnecessary `RefreshDatabase` trait, unused imports
 
 ### Removed
 
+- Removed unused skeleton boilerplate (`Skeleton.php`, `Facades/Skeleton.php`)
+- Removed broken facade alias from `composer.json`
+- Removed unused factory autoload from `composer.json`
+- Removed dead `sessionStorage.setItem` call from Livewire component
+- Removed unused `$listeners` property from `BrowserTimezoneSync`
 - Removed all GitHub Actions workflows and configuration files
-
-### Technical Notes
-
-- Filament v5 was released on January 16, 2025 with Livewire v4 support as the main feature
-- Filament v4 uses Livewire v3, Filament v5 uses Livewire v4
-- Render hooks remain fully compatible across Filament v3, v4, and v5
-- Livewire component integration works seamlessly with both Livewire v3 and v4
-- Browser timezone detection logic unchanged - maintains consistent functionality
-- AI custom guidelines provide comprehensive package documentation for AI assistants
-- No breaking changes for existing users
-- Easy upgrade path from v3/v4 to v5 with no manual steps required
 
 ## Release 1.4.0 - 2025-09-19
 
@@ -171,7 +167,6 @@ Release version 1.1.0
 
 - Uses `spatie/laravel-package-tools` for package management
 - Integrates with Filament's render hook system for automatic inclusion
-- Implements sessionStorage check to prevent duplicate timezone detection
 - Provides fallback timezone handling when detection fails
 - Includes proper error handling and graceful degradation
 

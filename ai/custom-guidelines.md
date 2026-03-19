@@ -283,8 +283,14 @@ The package registers via `FilamentBrowserTimezoneServiceProvider` which:
 `BrowserTimezoneSync` component:
 - Renders a hidden component in the DOM
 - Uses Alpine.js to detect timezone on mount
-- Sends timezone to server via Livewire `$wire.set()` method
+- Sends timezone to server via Livewire `$wire.setBrowserTimezone()` method call
 - Stores in session using configured key
+
+### Artisan Command
+Clear the stored timezone from session:
+```bash
+php artisan filament:timezone:clear
+```
 
 ### Session Storage
 - Stored under key: `browser_timezone` (configurable)
