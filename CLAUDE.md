@@ -1,79 +1,53 @@
-# Development Context for Claude
+# CLAUDE.md
 
-This file provides context for Claude to assist with development tasks.
-Generated on: 2025-08-10 02:41:04
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Referenced Files
-
-Please read the following project files for complete context:
-
-**Core Configuration:**
-- [@.zeri/project.md](.zeri/project.md) - Project overview, tech stack, and architecture
-- [@.zeri/development.md](.zeri/development.md) - Standards, decisions, patterns, and development workflows
-
-
-
----
-
-## Instructions for Claude
-
-When working on this project:
-
-1. **Follow the established patterns** described in the patterns section
-2. **Adhere to coding standards** outlined in the standards section
-3. **Consider architectural decisions** when proposing changes
-4. **Follow the development workflow** for implementation steps
-5. **Reference current priorities** to align with project goals
-6. **Check active specifications** for feature-specific requirements
-7. **ONLY implement or start coding when files in .zeri/specs are referenced** - Do not write code without specific feature specifications
-
-## ⚠️ MANDATORY: Specification Creation Rules
-
-**CRITICAL:** When creating new feature specifications, you MUST follow these rules:
-
-### Creating Specifications
-**⚠️ MANDATORY: Always use `zeri add-spec <name>` to create new feature specifications.**
-
-**DO NOT manually create specification files. Use the command:**
+## Common Commands
 
 ```bash
-# Create a new specification
-zeri add-spec "feature-name"
+# Run tests
+composer test                    # Run full test suite (Pest)
+vendor/bin/pest                  # Direct Pest invocation
+vendor/bin/pest tests/Unit       # Run only unit tests
+vendor/bin/pest tests/Feature    # Run only feature tests
+vendor/bin/pest --filter="test name"  # Run a single test by name
 
-# This creates .zeri/specs/feature-name.md with the standard template
+# Static analysis
+composer analyse                 # PHPStan level 5
+
+# Code formatting
+composer format                  # Laravel Pint (preset: laravel, imports sorted by length)
+
+# Release (asks for type: patch/minor/major or exact version)
+./release.sh patch
 ```
 
-### Specification Workflow
-1. **⚠️ REQUIRED: Create Specification**: ALWAYS use `zeri add-spec` command to create structured requirements
-2. **Plan Implementation**: Break down requirements into actionable tasks
-3. **Implement Features**: Follow the TODO checklist step by step
-4. **Mark Progress**: Update TODOs in real-time during development
-5. **Review and Complete**: Ensure all requirements are met
+## Architecture
 
-### Implementation Process Rules
-- **MANDATORY**: Always use `zeri add-spec` command - never manually create .md files in .zeri/specs/
-- Always start with a specification for non-trivial features
-- Break complex features into smaller, manageable tasks
-- Follow established coding patterns and conventions
-- Write tests alongside implementation
+This is a Laravel package (`webteractive/filament-browser-timezone`) that detects the user's browser timezone via JavaScript and stores it in the Laravel session.
 
-### ⚠️ Important: TODO Marking Requirements
-**ALWAYS mark TODO items as complete when implementing specifications in `.zeri/specs/`:**
+### How It Works
 
-- Mark checkboxes as `- [x]` when completing each implementation step
-- This helps track progress and manage AI assistant usage limits
-- Essential for efficient development workflow with AI assistance
-- Update TODOs in real-time during implementation, not after completion
+1. **ServiceProvider** (`FilamentBrowserTimezoneServiceProvider`) registers a Filament render hook at `BODY_START` that injects a hidden Livewire component
+2. **Livewire component** (`BrowserTimezoneSync`) renders an Alpine.js `x-data` div that calls `Intl.DateTimeFormat().resolvedOptions().timeZone` on init, then sends it to the server via `$wire.setBrowserTimezone(tz)`
+3. **Static helper** (`BrowserTimezone`) reads/writes the timezone from/to the session — this is the public API consumers use (`BrowserTimezone::get()`, `::has()`, `::set()`, `::clear()`)
+4. **Artisan command** (`filament:timezone:clear`) clears the stored timezone from session
 
-## Key Reminders
+### Key Files
 
-- Primarily edit files in the .zeri/ directory - NEVER remove zeri file references from generated AI files (CLAUDE.md, GEMINI.md, cursor-zeri.mdc)
-- Generated AI files can be edited but preserve all .zeri/ file references and mandatory instructions
-- Always write tests for new functionality
-- Follow the established code review process
-- Consider performance and security implications
-- Update documentation when making architectural changes
-- Communicate clearly about implementation decisions
+- `src/BrowserTimezone.php` — Static facade-like API for getting/setting timezone in session
+- `src/Livewire/BrowserTimezoneSync.php` — Livewire component with inline Blade template (Alpine.js)
+- `src/FilamentBrowserTimezoneServiceProvider.php` — Package registration via spatie/laravel-package-tools
+- `config/filament-browser-timezone.php` — Config: `session_key`, `fallback_timezone`, `debug`
 
----
-*This context file is automatically generated from your .zeri configuration. Update the source files in .zeri/ to modify this content.*
+### Testing
+
+Tests use Orchestra Testbench with `TestCase` in `tests/TestCase.php`. Pest is configured to use this base class for all tests via `tests/Pest.php`. The test environment uses array session driver and sets a random app key for Laravel 12 compatibility.
+
+### Version Compatibility
+
+Supports Filament v3/v4/v5, Livewire v3/v4, Laravel 10/11/12, PHP 8.2+.
+
+### Pint Configuration
+
+Laravel preset with imports sorted by length (`pint.json`).

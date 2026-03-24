@@ -1,102 +1,53 @@
-# Development Context for OpenAI Codex
+# AGENTS.md
 
-This file provides structured context for OpenAI Codex CLI to assist with development tasks.
-Generated on: 2025-08-30 07:55:50
+This file provides guidance to OpenAI Codex CLI when working with code in this repository.
 
-## Project Overview
+## Common Commands
 
-This document serves as memory and project documentation for Codex CLI's "Memory with AGENTS.md" functionality.
-
-## Referenced Files
-
-Please read the following project files for complete context:
-
-**Core Configuration:**
-- [@.zeri/project.md](.zeri/project.md) - Project overview, tech stack, and architecture
-- [@.zeri/development.md](.zeri/development.md) - Standards, decisions, patterns, and development workflows
-
-
-**Active Specifications:**
-- [@.zeri/specs/browser-timezone-core.md](.zeri/specs/browser-timezone-core.md) - browser-timezone-core specification
-- [@.zeri/specs/filament-v4-support.md](.zeri/specs/filament-v4-support.md) - filament-v4-support specification
-
-
----
-
-## Development Instructions for Codex
-
-When working on this project:
-
-1. **Follow established patterns** described in the development practices
-2. **Adhere to coding standards** outlined in the standards section
-3. **Consider architectural decisions** when proposing changes
-4. **Follow the development workflow** for implementation steps
-5. **Reference active specifications** for feature-specific requirements
-6. **ONLY implement when specifications are referenced** - Do not write code without specific feature specifications
-
-## Code Development Rules
-
-### Specification Workflow
-When creating new features:
-
-1. **Create Specification**: Use `zeri add-spec "feature-name"` command
-2. **Plan Implementation**: Break down requirements into actionable tasks
-3. **Implement Features**: Follow the TODO checklist step by step
-4. **Mark Progress**: Update TODOs as `- [x]` when completing steps
-5. **Review and Complete**: Ensure all requirements are met
-
-### Implementation Process
-- Always use `zeri add-spec` command for new feature specifications
-- Start with a specification for non-trivial features
-- Break complex features into smaller, manageable tasks
-- Follow established coding patterns and conventions
-- Write tests alongside implementation
-- Update TODOs in real-time during development
-
-## Code Quality Standards
-
-### Required Actions
-- Run `./vendor/bin/pint` after every PHP file modification
-- Write tests for all new functionality
-- Follow PSR-12 coding standards
-- Use established naming conventions (CamelCase for classes, snake_case for variables)
-- Maintain backward compatibility
-
-### Testing Requirements
-- Feature tests in `tests/Feature/`
-- Unit tests in `tests/Unit/`
-- Use Pest testing framework
-- Run tests with `php application test`
-
-## Build and Development Commands
-
-### Development Commands
 ```bash
-# Use during development (not built binary)
-php application init              # Initialize .zeri structure
-php application generate codex    # Generate AGENTS.md from .zeri files
-php application add-spec "name"   # Add new specification
-php application test             # Run tests
+# Run tests
+composer test                    # Run full test suite (Pest)
+vendor/bin/pest                  # Direct Pest invocation
+vendor/bin/pest tests/Unit       # Run only unit tests
+vendor/bin/pest tests/Feature    # Run only feature tests
+vendor/bin/pest --filter="test name"  # Run a single test by name
 
-# Code quality
-./vendor/bin/pint                # Format code (MANDATORY)
-./vendor/bin/pest                # Run tests
+# Static analysis
+composer analyse                 # PHPStan level 5
+
+# Code formatting
+composer format                  # Laravel Pint (preset: laravel, imports sorted by length)
+
+# Release (asks for type: patch/minor/major or exact version)
+./release.sh patch
 ```
 
-### Build Commands
-```bash
-./build.sh                       # Recommended build method
-php application app:build        # Manual build
-```
+## Architecture
 
-## Key Development Notes
+This is a Laravel package (`webteractive/filament-browser-timezone`) that detects the user's browser timezone via JavaScript and stores it in the Laravel session.
 
-- Primarily edit files in `.zeri/` directory
-- Never remove zeri file references from generated AI files
-- Generated AI files can be edited but preserve all .zeri/ references
-- Consider performance and security implications
-- Update documentation when making architectural changes
-- Use Laravel Zero patterns for console applications
+### How It Works
 
----
-*This context file is automatically generated from your .zeri configuration for OpenAI Codex CLI compatibility. Update the source files in .zeri/ to modify this content.*
+1. **ServiceProvider** (`FilamentBrowserTimezoneServiceProvider`) registers a Filament render hook at `BODY_START` that injects a hidden Livewire component
+2. **Livewire component** (`BrowserTimezoneSync`) renders an Alpine.js `x-data` div that calls `Intl.DateTimeFormat().resolvedOptions().timeZone` on init, then sends it to the server via `$wire.setBrowserTimezone(tz)`
+3. **Static helper** (`BrowserTimezone`) reads/writes the timezone from/to the session — this is the public API consumers use (`BrowserTimezone::get()`, `::has()`, `::set()`, `::clear()`)
+4. **Artisan command** (`filament:timezone:clear`) clears the stored timezone from session
+
+### Key Files
+
+- `src/BrowserTimezone.php` — Static facade-like API for getting/setting timezone in session
+- `src/Livewire/BrowserTimezoneSync.php` — Livewire component with inline Blade template (Alpine.js)
+- `src/FilamentBrowserTimezoneServiceProvider.php` — Package registration via spatie/laravel-package-tools
+- `config/filament-browser-timezone.php` — Config: `session_key`, `fallback_timezone`, `debug`
+
+### Testing
+
+Tests use Orchestra Testbench with `TestCase` in `tests/TestCase.php`. Pest is configured to use this base class for all tests via `tests/Pest.php`. The test environment uses array session driver and sets a random app key for Laravel 12 compatibility.
+
+### Version Compatibility
+
+Supports Filament v3/v4/v5, Livewire v3/v4, Laravel 10/11/12, PHP 8.2+.
+
+### Pint Configuration
+
+Laravel preset with imports sorted by length (`pint.json`).
