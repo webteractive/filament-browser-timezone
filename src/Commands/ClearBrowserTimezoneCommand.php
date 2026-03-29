@@ -2,6 +2,7 @@
 
 namespace Webteractive\FilamentBrowserTimezone\Commands;
 
+use Throwable;
 use Illuminate\Console\Command;
 use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
 
@@ -13,7 +14,13 @@ class ClearBrowserTimezoneCommand extends Command
 
     public function handle(): int
     {
-        BrowserTimezone::clear();
+        try {
+            BrowserTimezone::clear();
+        } catch (Throwable $e) {
+            $this->error("Failed to clear browser timezone: {$e->getMessage()}");
+
+            return self::FAILURE;
+        }
 
         $this->info('Browser timezone cleared from session.');
 

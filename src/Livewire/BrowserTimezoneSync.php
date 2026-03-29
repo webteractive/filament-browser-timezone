@@ -9,6 +9,10 @@ class BrowserTimezoneSync extends Component
 {
     public function setBrowserTimezone(?string $timezone): void
     {
+        if (BrowserTimezone::has() && BrowserTimezone::get() === $timezone) {
+            return;
+        }
+
         BrowserTimezone::set($timezone);
     }
 

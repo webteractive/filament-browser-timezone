@@ -4,6 +4,10 @@ use Livewire\Livewire;
 use Webteractive\FilamentBrowserTimezone\BrowserTimezone;
 use Webteractive\FilamentBrowserTimezone\Livewire\BrowserTimezoneSync;
 
+beforeEach(function () {
+    BrowserTimezone::resetState();
+});
+
 test('complete workflow from detection to usage', function () {
     // Simulate timezone detection
     $timezone = 'Europe/Berlin';
@@ -29,9 +33,17 @@ test('complete workflow from detection to usage', function () {
 });
 
 test('handles invalid timezone gracefully', function () {
-    // Test with invalid timezone
+    // Test with empty string
     Livewire::test(BrowserTimezoneSync::class)
         ->call('setBrowserTimezone', '');
+
+    expect(session('browser_timezone'))->toBeNull();
+    expect(BrowserTimezone::has())->toBeFalse();
+    expect(BrowserTimezone::get())->toBe('UTC');
+
+    // Test with invalid timezone string
+    Livewire::test(BrowserTimezoneSync::class)
+        ->call('setBrowserTimezone', 'Not/A/Real/Timezone');
 
     expect(session('browser_timezone'))->toBeNull();
     expect(BrowserTimezone::has())->toBeFalse();
@@ -40,6 +52,7 @@ test('handles invalid timezone gracefully', function () {
 
 test('configuration integration works correctly', function () {
     // Test custom session key
+    BrowserTimezone::resetState();
     config(['filament-browser-timezone.session_key' => 'custom_tz']);
 
     $timezone = 'Asia/Tokyo';
@@ -49,6 +62,7 @@ test('configuration integration works correctly', function () {
     expect(BrowserTimezone::get())->toBe($timezone);
 
     // Reset config
+    BrowserTimezone::resetState();
     config(['filament-browser-timezone.session_key' => 'browser_timezone']);
 });
 
