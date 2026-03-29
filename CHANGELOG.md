@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.2] - 2026-03-29
+
+### Added
+
+- Timezone validation against `DateTimeZone::listIdentifiers()` — invalid input from the client is now silently rejected
+- Fallback timezone config validation — falls back to UTC if an invalid timezone is configured
+- Debug logging when `debug` config is enabled (was previously configured but unused)
+- Session key caching in a static variable to avoid repeated `config()` calls
+- Skip redundant session writes in the Livewire component when the timezone hasn't changed
+- Try-catch error handling in `filament:timezone:clear` command with proper exit codes
+- Public `BrowserTimezone::isValid()` method for external timezone validation
+- `BrowserTimezone::resetState()` method for testing support
+- Tests for invalid timezone rejection, malformed session data, debug logging, session key caching, skip-if-already-set behavior, and fallback validation
+
+## [1.5.1] - 2026-03-19
+
 ### Added
 
 - **Filament v5 Support**: Added compatibility with Filament v5 alongside existing v3 and v4 support
@@ -34,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed unused `$listeners` property from `BrowserTimezoneSync`
 - Removed all GitHub Actions workflows and configuration files
 
-## Release 1.4.0 - 2025-09-19
+## [1.4.0] - 2025-09-19
 
 Release version 1.4.0
 
