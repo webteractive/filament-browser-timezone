@@ -166,7 +166,7 @@ For unsupported browsers, the package will use the configured fallback timezone.
 
 | Package Version | Filament Version | Livewire Version | Laravel Version | PHP Version |
 |----------------|------------------|------------------|-----------------|-------------|
-| 1.x            | ^3.0\|\|^4.0\|\|^5.0 | ^3.0\|\|^4.0     | ^10.0\|\|^11.28\|\|^12.0 | ^8.2       |
+| 1.x            | ^3.0\|\|^4.0\|\|^5.0 | ^3.0\|\|^4.0     | ^10.0\|\|^11.28\|\|^12.0\|\|^13.0 | ^8.2       |
 
 **Note**: Filament v3 and v4 use Livewire v3, while Filament v5 uses Livewire v4. This package supports both Livewire versions seamlessly.
 

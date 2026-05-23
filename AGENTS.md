@@ -46,7 +46,7 @@ Tests use Orchestra Testbench with `TestCase` in `tests/TestCase.php`. Pest is c
 
 ### Version Compatibility
 
-Supports Filament v3/v4/v5, Livewire v3/v4, Laravel 10/11/12, PHP 8.2+.
+Supports Filament v3/v4/v5, Livewire v3/v4, Laravel 10/11/12/13, PHP 8.2+.
 
 ### Pint Configuration
 
