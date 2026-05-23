@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-05-23
+
 ### Added
 
 - Laravel 13 support: `laravel/framework` accepts `^13.0`; `orchestra/testbench` accepts `^11.0`; `pestphp/pest`, `pestphp/pest-plugin-arch`, and `pestphp/pest-plugin-laravel` accept `^4.0` (required for L13 dev/test). Verified against Laravel 13.11.2 + Testbench 11.1.0 + Pest 4.7.0 — all 37 tests pass. Note: Laravel 13 itself requires PHP `^8.3`, but the package's `php` constraint stays at `^8.2` so PHP 8.2 users continue to receive Laravel 10–12.
